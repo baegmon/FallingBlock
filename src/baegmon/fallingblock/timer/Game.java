@@ -31,20 +31,10 @@ public class Game extends BukkitRunnable {
 
     void start(){
 
-        long tick = 50L;
+        long tick = 60L;
 
         arena.setGameState(GameState.STARTED);
         arena.setRemaining(new HashSet<>(arena.getPlayers()));
-
-        for(UUID id : arena.getPlayers()){
-            Player player = Bukkit.getPlayer(id);
-            player.setScoreboard(arena.generateGameScoreboard());
-
-            // teleport players into a random position inside of the arena
-            if(!ArenaUtils.insideArena(player.getLocation(), arena.getPos1(), arena.getPos2())){
-                player.teleport(ArenaUtils.getRandomLocation(arena.getWorld(), arena.getPos1(), arena.getPos2()));
-            }
-        }
 
         Location pos1 = arena.getPos1();
         Location pos2 = arena.getPos2();
@@ -59,7 +49,17 @@ public class Game extends BukkitRunnable {
 
         total = (maxX - minX + 1) * (maxZ - minZ + 1);
 
-        numberOfFallingBlocks = (int) (total * 0.45);
+        numberOfFallingBlocks = (int) (total * 0.35);
+
+        for(UUID id : arena.getPlayers()){
+            Player player = Bukkit.getPlayer(id);
+            player.setScoreboard(arena.generateGameScoreboard());
+
+            // teleport players into a random position inside of the arena
+            if(!ArenaUtils.insideArena(player.getLocation(), arena.getPos1(), arena.getPos2())){
+                player.teleport(ArenaUtils.getRandomLocation(arena.getWorld(), arena.getPos1(), arena.getPos2()));
+            }
+        }
 
         this.runTaskTimer(BlockPlugin.getPlugin(BlockPlugin.class), 0L, tick);
     }
@@ -144,9 +144,9 @@ public class Game extends BukkitRunnable {
 
                     @Override
                     public void run() {
-                        if(counter < 3){
+                        if(counter < 5){
                             Firework firework = winner.getWorld().spawn(winner.getLocation(), Firework.class);
-                            firework.setFireworkMeta(ArenaUtils.randomFireWorkEffect(firework));
+                            firework.setFireworkMeta(ArenaUtils.generateRandomFireWorkEffect(firework));
                             counter++;
                         } else {
                             cancel();

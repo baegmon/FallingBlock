@@ -3,11 +3,9 @@ package baegmon.fallingblock.tools;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,19 +13,18 @@ public class ArenaUtils {
 
     public static Location getRandomLocation(String world, Location pos1, Location pos2) {
 
-        double minX = Math.min(pos1.getBlockX(), pos2.getBlockX()) + 1;
-        double minY = Math.min(pos1.getY() + 1, pos2.getY() + 1);
-        double minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ()) + 1;
+        double minX = Math.min(pos1.getBlockX(), pos2.getBlockX()) + 1.5;
+        double minY = Math.min(pos1.getBlockY(), pos2.getBlockY()) + 1;
+        double minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ()) + 1.5;
 
         double maxX = Math.max(pos1.getBlockX(), pos2.getBlockX()) - 1;
-        double maxY = Math.max(pos1.getY() + 1, pos2.getY() + 1);
         double maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ()) - 1;
 
         boolean safe = false;
         Location location = null;
 
         while(!safe){
-            location = new Location(Bukkit.getWorld(world), randomDouble(minX, maxX), randomDouble(minY, maxY), randomDouble(minZ, maxZ));
+            location = new Location(Bukkit.getWorld(world), randomDouble(minX, maxX), minY, randomDouble(minZ, maxZ));
             safe = isSafeLocation(location);
         }
 
@@ -70,7 +67,7 @@ public class ArenaUtils {
         return ground.getType().isSolid();
     }
 
-    public static FireworkMeta randomFireWorkEffect(Firework f){
+    public static FireworkMeta generateRandomFireWorkEffect(Firework f){
         FireworkMeta fm = f.getFireworkMeta();
         fm.setPower(0);
 
