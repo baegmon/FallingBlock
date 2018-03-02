@@ -1,0 +1,11 @@
+name: FallingBlock
+version: 1.0.0
+author: BAEGMON
+description: FallingBlock plugin for Spigot/Bukkit
+main: baegmon.fallingblock.BlockPlugin
+website: https://github.com/baegmon
+commands:
+  fallingblock:
+    description: Main command used to create arenas and start games
+    usage: /fallingblock help
+    aliases: [fb]
